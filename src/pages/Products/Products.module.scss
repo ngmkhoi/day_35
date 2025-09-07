@@ -1,0 +1,150 @@
+/* --- GLOBAL STYLES --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+  Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f6f8;
+}
+
+/* --- PAGE LAYOUT --- */
+.productsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* --- PRODUCT CARD STYLES --- */
+.postCard {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.postCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.postCard h3 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.postCard p {
+  margin: 0 0 1rem;
+  color: #555;
+  font-size: 1rem;
+  flex-grow: 1; /* Đẩy nút xuống dưới cùng */
+}
+
+.postCard button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 600;
+  align-self: flex-start; /* Nút chỉ rộng bằng nội dung */
+}
+
+.postCard button:hover {
+  background-color: #0056b3;
+}
+
+/* --- LOADING MESSAGE --- */
+.loading {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #888;
+  padding: 4rem 0;
+}
+
+/* --- MODAL STYLES --- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Lớp phủ nền bán trong suốt */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 550px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  animation: zoomIn 0.3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* FIX: Đảm bảo nội dung trong modal luôn hiển thị */
+.modalContent h2,
+.modalContent p {
+  color: #333; /* Đặt màu chữ rõ ràng */
+  opacity: 1;   /* Không bị trong suốt */
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+.modalContent p {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.modalContent button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6c757d; /* Màu xám */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  opacity: 1;
+  float: right; /* Đẩy nút qua phải */
+  font-weight: 600;
+}
+
+.modalContent button:hover {
+  background-color: #5a6268;
+}
+
+/* --- KEYFRAME ANIMATIONS --- */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  to {
+    transform: scale(1);
+  }
+}
