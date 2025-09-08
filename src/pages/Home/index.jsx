@@ -1,6 +1,4 @@
 import styles from './Home.module.scss';
-import Button from '../../components/Button'; // Import component Button đã tạo
-import { ListTodo, MessageSquare, CloudSun, Box, Newspaper, Gem } from 'lucide-react'; // Icon cho các nút
 
 function Home() {
     return (

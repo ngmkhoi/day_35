@@ -57,8 +57,8 @@ function Buttons() {
                 <h3 className={styles.sectionTitle}>States</h3>
                 <div className={styles.row}>
                     <Button primary disabled>Disabled</Button>
-                    <Button primary loading rightIcon={<Send size={18} />}>
-                        Đang gửi
+                    <Button primary rightIcon={<Send size={18} />}>
+                        Đang gửi...
                     </Button>
                     <Button bordered loading>
                         Loading...
