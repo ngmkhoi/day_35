@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './Button.module.scss';
 
-// Thêm các prop mới: leftIcon, rightIcon, danger
 function Button({
                     children,
                     primary = false,
                     bordered = false,
-                    danger = false, // Biến thể cho hành động nguy hiểm (VD: Xóa)
+                    danger = false,
                     rounded = false,
                     size = 'medium',
                     href,
+                    to,
                     disabled = false,
                     loading = false,
                     leftIcon = null,
@@ -19,21 +20,32 @@ function Button({
                     onClick,
                     ...props
                 }) {
-    const Component = href ? 'a' : 'button';
-    const classes = clsx(styles.button, {
-        [styles.primary]: primary,
-        [styles.bordered]: bordered,
-        [styles.danger]: danger,
-        [styles.rounded]: rounded,
-        [styles[size]]: true,
-        [styles.disabled]: disabled || loading,
-        [styles.loading]: loading,
-        [styles.withIcon]: leftIcon || rightIcon,
-        [className]: className,
-    });
+    // Xác định Component dựa trên prop to hoặc href
+    const Component = to ? Link : href ? 'a' : 'button';
+
+    const classes = clsx(
+        styles.button,
+        {
+            [styles.primary]: primary,
+            [styles.bordered]: bordered,
+            [styles.danger]: danger,
+            [styles.rounded]: rounded,
+            [styles.disabled]: disabled || loading,
+            [styles.loading]: loading,
+            [styles.withIcon]: leftIcon || rightIcon,
+        },
+        styles[size], // Truyền styles[size] riêng
+        className // Truyền className riêng
+    );
 
     const handleClick = (e) => {
-        if (disabled || loading) return;
+        if (disabled || loading) {
+            // Ngăn điều hướng cho thẻ <a> hoặc Link
+            if (Component === 'a' || Component === Link) {
+                e.preventDefault();
+            }
+            return;
+        }
         if (onClick) onClick(e);
     };
 
@@ -45,19 +57,26 @@ function Button({
         </>
     );
 
+    // Chỉ truyền các prop phù hợp với loại Component
+    const componentProps = {
+        className: classes,
+        onClick: handleClick,
+        ...props,
+    };
+
+    if (Component === 'button') {
+        componentProps.disabled = disabled || loading;
+    } else if (Component === 'a') {
+        componentProps.href = href;
+    } else if (Component === Link) {
+        componentProps.to = to;
+    }
+
     return (
-        <Component
-            className={classes}
-            href={href}
-            onClick={handleClick}
-            disabled={disabled || loading}
-            {...props}
-        >
+        <Component {...componentProps}>
             {loading ? (
                 <>
-                    {/* Ẩn nội dung thật để giữ nguyên kích thước button */}
                     <span className={styles.hidden}>{content}</span>
-                    {/* Spinner CSS thay cho emoji */}
                     <div className={styles.loader}></div>
                 </>
             ) : (
@@ -75,6 +94,7 @@ Button.propTypes = {
     rounded: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     href: PropTypes.string,
+    to: PropTypes.string, // Thêm propTypes cho to
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
     leftIcon: PropTypes.node,
